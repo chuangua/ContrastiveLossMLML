@@ -1,4 +1,5 @@
 # ContrastiveLossMLML
+[![OSCS Status](https://www.oscs1024.com/platform/badge/chuangua/ContrastiveLossMLML.svg?size=small)](https://www.oscs1024.com/project/chuangua/ContrastiveLossMLML?ref=badge_small)
 This repository contains the source code for the experiments of the article
 
     "Label Structure Preserving Contrastive Embedding for Multi-Label Learning with Missing Labels" 

@@ -4,6 +4,7 @@ This repository contains the source code for the experiments of the article
 
     "Label Structure Preserving Contrastive Embedding for Multi-Label Learning with Missing Labels" 
     Zhongchen Ma†, Lisha Li†, Qirong Mao, Senior Member, IEEE, and Songcan Chen∗, Senior Member, IEEE
+    https://arxiv.org/abs/2209.01314
     
     
 you can try:

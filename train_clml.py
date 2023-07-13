@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description='PyTorch MS_COCO Training')
 parser.add_argument('--dataset', help='select dataset', default='./dataset/coco_train_0.75left.txt')
 parser.add_argument('--data', metavar='DIR', help='path to dataset', default='/home/mscoco')
 parser.add_argument('--lr', default=1e-4, type=float)
-parser.add_argument('--model-name', default='resnet101')
+parser.add_argument('--model-name', default='resnet50')
 parser.add_argument('--num-classes', default=80)
 parser.add_argument('-j', '--workers', default=16, type=int, metavar='N',help='number of data loading workers (default: 16)')
 parser.add_argument('--image-size', default=448, type=int, metavar='N', help='input image size (default: 448)')
@@ -27,8 +27,9 @@ parser.add_argument('-b', '--batch-size', default=16, type=int, metavar='N', hel
 parser.add_argument('--print-freq', '-p', default=64, type=int, metavar='N', help='print frequency (default: 64)')
 parser.add_argument('--loss', default='SPLC', type=str, help='select loss function', choices=['BCE','Focal','Hill','SPLC'])
 parser.add_argument('--lambda_', type=float, default=1.00, help='CL loss is multiplied by lambda_.')
-parser.add_argument('--useclml', type=bool, default=True, help='use clml')
+parser.add_argument('--use_clml', type=bool, default=True, help='use clml')
 parser.add_argument('--threshold', type=float, default=0.75, help='If the predicted probability is greater than this value, the sample makes up the label')
+parser.add_argument('--NeEpoch', type=int, default=1, help='Start Epoch')
 
 
 def main():
@@ -89,7 +90,7 @@ def train_multi_label_coco(args, model, train_loader, val_loader, lr):
     Epochs = 80
     Stop_epoch = 25
     weight_decay = 1e-4
-    use_clml=args.useclml
+    use_clml=args.use_clml
     lam=args.lambda_
     if args.loss == 'BCE':
         crit1 = AsymmetricLoss(gamma_neg=0, gamma_pos=0, clip=0)
@@ -111,14 +112,13 @@ def train_multi_label_coco(args, model, train_loader, val_loader, lr):
     highest_mAP = 0
     trainInfoList = []
     scaler = GradScaler()
-    crit_clml=CLML(tau=args.threshold)
+    crit_clml=CLML(tau=args.threshold,change_epoch=args.NeEpoch)
 
     for epoch in range(Epochs):
         if epoch > Stop_epoch:
             break
         for batch_idx, (inputData, target ) in enumerate(train_loader):
             inputData = inputData.cuda()
-            #target=target.to(torch.float32)
             target = target.cuda()  # (batch,3,num_classes)
             output,feature = model(inputData)
            

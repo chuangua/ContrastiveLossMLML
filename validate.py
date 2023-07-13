@@ -15,7 +15,7 @@ import numpy as np
 
 parser = argparse.ArgumentParser(description='PyTorch MS_COCO Validation')
 parser.add_argument('--data', metavar='DIR', help='path to dataset', default='/home/MSCOCO_2014/')
-parser.add_argument('--model-name', default='resnet101')
+parser.add_argument('--model-name', default='resnet50')
 parser.add_argument('--model-path', default='/home/model/coco_75_hill.ckpt', type=str)
 parser.add_argument('--num-classes', default=80)
 parser.add_argument('-j', '--workers', default=16, type=int, metavar='N', help='number of data loading workers (default: 16)')

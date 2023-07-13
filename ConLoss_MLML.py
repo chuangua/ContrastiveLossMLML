@@ -59,10 +59,10 @@ class CLLoss(Function):
         r = np.sum(S < eigThd)
         uprod=np.dot(U[:, 0:U.shape[1] - r],np.transpose(V[:, 0:V.shape[1] - r]))
         dX_all = uprod
-        dX = (dX_c - lambda_ * dX_all) / N * np.float(lambda_)
+        dX = (dX_c - dX_all) / N * np.float(lambda_)
         ctx.dX = torch.FloatTensor(dX).cuda()
 
-        obj = (Obj_c  - lambda_*Obj_all)/N*np.float(lambda_)
+        obj = (Obj_c  - Obj_all)/N*np.float(lambda_)
         obj=torch.FloatTensor([float(obj)])[0].cuda()
         return obj
 
